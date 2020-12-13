@@ -3,11 +3,11 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./Login.css";
 import { Link, useHistory } from 'react-router-dom';
-import Dashboard from '../Dashboard';
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [alert, setAlert] = useState(false);
 
   function validateForm() {
     return email.length > 0 && password.length > 0;
@@ -22,10 +22,14 @@ export default function Login() {
     if (user.email === email && user.password === password) {
       history.push('/dashboard')
     }
+    else {
+      setAlert(true);
+    }
   }
 
   return (
     <div className="Login">
+
       <Form onSubmit={handleSubmit}>
         <Form.Group size="lg" controlId="email">
           <Form.Label>Email</Form.Label>
@@ -47,12 +51,10 @@ export default function Login() {
         <Button block size="lg" type="submit" disabled={!validateForm()}>
           Login
         </Button>
+
+        {(alert) ? <Form.Label>Wrong credentials...!!!</Form.Label> : null}
+
         <div>
-          {/* <div>
-                            <Link to="/">
-                                {"Login"}
-                            </Link>
-                        </div> */}
           <div>
             <Link to="/registration">
               New User?
